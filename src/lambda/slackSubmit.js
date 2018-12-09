@@ -8,7 +8,6 @@ export async function handler(event, context, callback){
   const payload = JSON.parse(event.body);
   const email = payload.params.email;
   const SLACK_TOKEN = process.env.SLACK_TOKEN;
-  console.log(SLACK_TOKEN)
   const SLACK_INVITE_ENDPOINT = 'https://slack.com/api/users.admin.invite';
   const toSlack = `email=${email}&token=${SLACK_TOKEN}&set_active=true`;
   axios.get(`${SLACK_INVITE_ENDPOINT}?${toSlack}`)
@@ -20,6 +19,8 @@ export async function handler(event, context, callback){
         message: 'success'
       })
     });
+  }).catch((error) => {
+    console.log(error);
   })
   
 }
