@@ -9,24 +9,16 @@ export async function handler(event, context, callback){
   const email = payload.params.email;
   const SLACK_TOKEN = process.env.SLACK_TOKEN;
 
-  if(!email){
+  const SLACK_INVITE_ENDPOINT = 'https://slack.com/api/users.admin.invite';
+  const toSlack = `email=${email}&token=${SLACK_TOKEN}&set_active=true`;
+  axios.get(`${SLACK_INVITE_ENDPOINT}?${toSlack}`)
+  .then((response) => {
     callback(null, {
-      statusCode: 422,
+      statusCode: 200,
       body: JSON.stringify({
-        message: 'No email bruh'
+        message: response
       })
-    })
-  } else {
-    const SLACK_INVITE_ENDPOINT = 'https://slack.com/api/users.admin.invite';
-    const toSlack = `email=${email}&token=${SLACK_TOKEN}&set_active=true`;
-    axios.get(`${SLACK_INVITE_ENDPOINT}?${toSlack}`)
-    .then((response) => {
-      callback(null, {
-        statusCode: 200,
-        body: JSON.stringify({
-          message: response
-        })
-      });
-    })
-  }
+    });
+  })
+  
 }
