@@ -35,11 +35,9 @@ class LandingHero extends Component {
     email: '',
     success: false
   }
-  SLACK_INVITE_ENDPOINT = 'https://slack.com/api/users.admin.invite';
 
   inviteToSlack = (event) => {
     event.preventDefault();
-    const params = `email=${this.state.email}&token=${this.SLACK_TOKEN}&set_active=true`;
 
     axios.post(`/.netlify/functions/slackSubmit`, {
       params: {
