@@ -32,10 +32,11 @@ import {
 class LandingHero extends Component {
 
   state = {
-    email: ''
+    email: '',
+    success: false
   }
 
-  SLACK_TOKEN = 'xoxp-493115201875-492480151920-499117506964-5f2949060cacecbdd4833714a76f5769';
+  SLACK_TOKEN = 'xoxp-493115201875-492480151920-500432971399-71c082af0972a68572932685e09958d2';
   SLACK_INVITE_ENDPOINT = 'https://slack.com/api/users.admin.invite';
 
   inviteToSlack = (event) => {
@@ -43,7 +44,11 @@ class LandingHero extends Component {
     const params = `email=${this.state.email}&token=${this.SLACK_TOKEN}&set_active=true`;
 
     axios.get(`${this.SLACK_INVITE_ENDPOINT}?${params}`)
-      .then(console.log('success'))
+      .then(
+        this.setState({
+          success: true
+        })
+      )
   }
 
   handleChange = (event) => {
@@ -54,7 +59,7 @@ class LandingHero extends Component {
 
 
   render() {
-    
+    const { success } = this.state;
     return (
       <HeroContainer>
         <HeroLeft>
@@ -86,10 +91,16 @@ class LandingHero extends Component {
         </HeroLeft>
         <HeroRight>
           <ContentContainer>
+            {!success ? (
             <form onSubmit={this.inviteToSlack}>
               <FormField type="text" name="email" onChange={this.handleChange} placeholder="Email"/>
               <FormButton type="submit" value="Submit"/>
             </form>
+            ) : ( 
+              <div>
+                <strong>Your email is on it's way!</strong>
+              </div>
+            )}
             <ContentParagraph>
               Enter your email and we'll instantly send you an invitation to the Marketers Chat Slack Group!
             </ContentParagraph>
