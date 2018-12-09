@@ -13,10 +13,11 @@ export async function handler(event, context, callback){
   const toSlack = `email=${email}&token=${SLACK_TOKEN}&set_active=true`;
   axios.get(`${SLACK_INVITE_ENDPOINT}?${toSlack}`)
   .then((response) => {
+    console.log(response)
     callback(null, {
       statusCode: 200,
       body: JSON.stringify({
-        message: response
+        message: 'success'
       })
     });
   })
