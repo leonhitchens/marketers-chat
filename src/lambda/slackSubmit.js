@@ -10,7 +10,7 @@ export async function handler(event, context, callback){
   const SLACK_TOKEN = process.env.SLACK_TOKEN;
   const SLACK_INVITE_ENDPOINT = 'https://slack.com/api/users.admin.invite';
   const toSlack = `email=${email}&token=${SLACK_TOKEN}&set_active=true`;
-  axios.get(`${SLACK_INVITE_ENDPOINT}?${toSlack}`)
+  await axios.get(`${SLACK_INVITE_ENDPOINT}?${toSlack}`)
   .then((response) => {
     console.log(response)
     callback(null, {
